@@ -1,7 +1,5 @@
 #include <iostream>
-#include <string>
-#include "include/exprtk.hpp"
-#include <cmath>
+#include "include/functions.h"
 
 using namespace std;
 
@@ -29,38 +27,11 @@ double f(const string &expression, double x)
   return expr.value();
 }
 
-int main(int argc, char const *argv[])
+void clearScreen()
 {
-  double a, b, c;
-  double errMax;
-  string expression;
-
-  cout << "Ingrese la funcion: ";
-  cin >> expression;
-
-  cout << "Ingrese el intervalo [a, b]: ";
-  cin >> a >> b;
-
-  cout << "Ingrese el error maximo: ";
-  cin >> errMax;
-
-  c = (a + b) / 2;
-
-  while (abs(f(expression, c)) > errMax)
-  {
-    if (f(expression, a) * f(expression, c) < 0)
-    {
-      b = c;
-    }
-    else
-    {
-      a = c;
-    }
-
-    c = (a + b) / 2;
-  }
-
-  cout << "Raiz: " << c << endl;
-
-  return 0;
+#ifdef _WIN32
+  system("cls");
+#else
+  system("clear");
+#endif
 }
