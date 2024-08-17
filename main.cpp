@@ -15,9 +15,10 @@ int main(int argc, char const *argv[])
 
     cout << "Metodos numericos" << endl;
     cout << "1. Biseccion" << endl;
-    cout << "2. Newton-Raphson" << endl;
-    cout << "3. Secante" << endl;
-    cout << "4. Salir" << endl;
+    cout << "2. Punto fijo" << endl;
+    cout << "3. Newton-Raphson" << endl;
+    cout << "4. Secante" << endl;
+    cout << "5. Salir" << endl;
     cout << "Opcion: ";
     cin >> option;
 
@@ -34,12 +35,15 @@ int main(int argc, char const *argv[])
     }
     break;
     case 2:
-      // methods.newtonRaphson();
+      // methods.fixedPoint();
       break;
     case 3:
-      // methods.secant();
+      // methods.newtonRaphson();
       break;
     case 4:
+      // methods.secant();
+      break;
+    case 5:
       exit = true;
       break;
     default:

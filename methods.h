@@ -15,6 +15,9 @@ public:
   void setExpression(string);
   string getExpression();
   void bisection();
+  void fixedPoint();
+  void newtonRaphson();
+  void secant();
 };
 
 #endif
