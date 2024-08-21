@@ -9,6 +9,8 @@ using namespace std;
 
 double f(const string &expression, double x);
 
+double fPrime(const string &expression, double x);
+
 void clearScreen();
 
 #endif

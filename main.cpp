@@ -35,14 +35,35 @@ int main(int argc, char const *argv[])
     }
     break;
     case 2:
-      // methods.fixedPoint();
-      break;
+    {
+      clearScreen();
+      string expression;
+      cout << "Ingrese la funcion despejada: ";
+      cin >> expression;
+      methods.setExpression(expression);
+      methods.fixedPoint();
+    }
+    break;
     case 3:
-      // methods.newtonRaphson();
-      break;
+    {
+      clearScreen();
+      string expression;
+      cout << "Ingrese la funcion: ";
+      cin >> expression;
+      methods.setExpression(expression);
+      methods.newtonRaphson();
+    }
+    break;
     case 4:
-      // methods.secant();
-      break;
+    {
+      clearScreen();
+      string expression;
+      cout << "Ingrese la funcion: ";
+      cin >> expression;
+      methods.setExpression(expression);
+      methods.secant();
+    }
+    break;
     case 5:
       exit = true;
       break;

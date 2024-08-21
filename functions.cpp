@@ -27,6 +27,12 @@ double f(const string &expression, double x)
   return expr.value();
 }
 
+double fPrime(const string &expression, double x)
+{
+  double h = 1e-6;
+  return (f(expression, x + h) - f(expression, x)) / h;
+}
+
 void clearScreen()
 {
 #ifdef _WIN32
