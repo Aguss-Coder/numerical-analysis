@@ -1,29 +1,32 @@
-# Nombre del archivo ejecutable
-TARGET = mathProgram.exe
-
 # Compilador
 CC = g++
 
 # Opciones de compilación
 CFLAGS = -Wall -g
 
-# Encuentra todos los archivos .cpp en el directorio actual
-SOURCES = $(wildcard *.cpp)
+# Directorios
+SRC_DIR = src
+OBJ_DIR = obj
+BIN_DIR = bin
 
-# Nombres de los archivos objeto, basados en los archivos fuente
-OBJECTS = $(SOURCES:.cpp=.o)
+# Archivos fuente y objetos
+SRC_FILES = $(wildcard $(SRC_DIR)/*.cpp)
+OBJ_FILES = $(patsubst $(SRC_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(SRC_FILES))
+TARGET = $(BIN_DIR)/main.exe
 
-# Regla por defecto
+# Reglas
 all: $(TARGET)
 
-# Cómo construir el objetivo final
-$(TARGET): $(OBJECTS)
-	$(CC) $(CFLAGS) -o $@ $^
+$(TARGET): $(OBJ_FILES) | $(BIN_DIR)
+		$(CXX) $(CXXFLAGS) -o $@ $^
 
-# Cómo construir cada objeto a partir de los archivos CPP
-%.o: %.cpp
-	$(CC) $(CFLAGS) -c $<
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp | $(OBJ_DIR)
+		$(CXX) $(CXXFLAGS) -c $< -o $@
 
-# Comando para limpiar los archivos compilados
+$(BIN_DIR) $(OBJ_DIR):
+		mkdir -p $@
+
 clean:
-	rm -f $(OBJECTS) $(TARGET)
+		rm -rf $(OBJ_DIR) $(BIN_DIR)
+
+.PHONY: all clean

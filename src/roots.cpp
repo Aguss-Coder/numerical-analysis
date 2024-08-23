@@ -1,25 +1,94 @@
 #include <iostream>
-#include "methods.h"
-#include "include/functions.h"
+#include "../include/roots.h"
+#include "../include/functions.h"
 
 using namespace std;
 
-Methods::Methods()
+Roots::Roots()
 {
   expression = "e^(-x) - x";
 }
 
-void Methods::setExpression(string expression)
+void Roots::Menu()
+{
+  bool exit = false;
+
+  while (!exit)
+  {
+    int option;
+
+    cout << "Metodos numericos" << endl;
+    cout << "1. Biseccion" << endl;
+    cout << "2. Punto fijo" << endl;
+    cout << "3. Newton-Raphson" << endl;
+    cout << "4. Secante" << endl;
+    cout << "5. Salir" << endl;
+    cout << "Opcion: ";
+    cin >> option;
+
+    switch (option)
+    {
+    case 1:
+    {
+      clearScreen();
+      string expression;
+      cout << "Ingrese la funcion: ";
+      cin >> expression;
+      setExpression(expression);
+      bisection();
+    }
+    break;
+    case 2:
+    {
+      clearScreen();
+      string expression;
+      cout << "Ingrese la funcion despejada: ";
+      cin >> expression;
+      setExpression(expression);
+      fixedPoint();
+    }
+    break;
+    case 3:
+    {
+      clearScreen();
+      string expression;
+      cout << "Ingrese la funcion: ";
+      cin >> expression;
+      setExpression(expression);
+      newtonRaphson();
+    }
+    break;
+    case 4:
+    {
+      clearScreen();
+      string expression;
+      cout << "Ingrese la funcion: ";
+      cin >> expression;
+      setExpression(expression);
+      secant();
+    }
+    break;
+    case 5:
+      exit = true;
+      break;
+    default:
+      cout << "Opcion invalida" << endl;
+      break;
+    }
+  }
+}
+
+void Roots::setExpression(string expression)
 {
   this->expression = expression;
 }
 
-string Methods::getExpression()
+string Roots::getExpression()
 {
   return expression;
 }
 
-void Methods::bisection()
+void Roots::bisection()
 {
   double a, b, c;
   double errMax;
@@ -49,7 +118,7 @@ void Methods::bisection()
   cout << "Raiz: " << c << endl;
 }
 
-void Methods::fixedPoint()
+void Roots::fixedPoint()
 {
   double x0, x1;
   double tol;
@@ -83,7 +152,7 @@ void Methods::fixedPoint()
   cerr << "El metodo no converge" << endl;
 }
 
-void Methods::newtonRaphson()
+void Roots::newtonRaphson()
 {
   double x0, x1;
   double tol;
@@ -116,7 +185,7 @@ void Methods::newtonRaphson()
   }
 }
 
-void Methods::secant()
+void Roots::secant()
 {
   double x0, x1, x2;
   double tol;
