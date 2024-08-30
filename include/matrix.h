@@ -2,23 +2,25 @@
 #define MATRIX_H
 
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
 class Matrix
 {
 protected:
-  int rows;
-  int cols;
-  double **data;
+  vector<vector<double>> data;
 
 public:
-  Matrix();
+  Matrix(int, int);
+
+  void input();
 
   // elementary row operations
-  void swapRows(int i, int j);
-  void scaleRow(int i, double k);
-  void addRows(int i, int j, double k);
+  void swapRows(int, int);
+  void multiplyRow(int, double);
+  void addMultipleOfRow(int, int, double);
+  void print() const;
 };
 
 #endif

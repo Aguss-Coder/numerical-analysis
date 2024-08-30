@@ -1,5 +1,6 @@
 #include <iostream>
 #include "../include/roots.h"
+#include "../include/solutions.h"
 #include "../include/functions.h"
 
 using namespace std;
@@ -35,8 +36,16 @@ int main(int argc, char const *argv[])
     break;
     case 2:
     {
+      int n;
       clearScreen();
-      cout << "Sistema de ecuaciones" << endl;
+
+      cout << "Numero de ecuaciones: ";
+      cin >> n;
+
+      Solutions solutions(n, n + 1);
+      solutions.input();
+
+      solutions.menu();
     }
     break;
     case 3:

@@ -9,10 +9,11 @@ using namespace std;
 class Solutions : public Matrix
 {
 public:
-  Solutions();
-  void gaussianElimination();
-  void gaussSeidel(double tol, int maxIter);
-  void LuMethod();
+  Solutions(int, int);
+  void menu();
+  vector<double> gaussianElimination();
+  vector<double> gaussSeidel();
+  vector<double> LuMethod();
 };
 
 #endif
