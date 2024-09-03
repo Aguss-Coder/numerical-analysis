@@ -43,6 +43,30 @@ void Matrix::addMultipleOfRow(int targetRow, int sourceRow, double scalar)
   }
 }
 
+void Matrix::upperTriangular()
+{
+  for (size_t i = 0; i < data.size(); i++)
+  {
+    for (size_t j = i + 1; j < data.size(); j++)
+    {
+      double factor = -data[j][i] / data[i][i];
+      addMultipleOfRow(j, i, factor);
+    }
+  }
+}
+
+void Matrix::lowerTriangular()
+{
+  for (size_t i = 0; i < data.size(); i++)
+  {
+    for (size_t j = 0; j < i; j++)
+    {
+      double factor = -data[j][i] / data[i][i];
+      addMultipleOfRow(j, i, factor);
+    }
+  }
+}
+
 void Matrix::print() const
 {
   for (const auto &row : data)

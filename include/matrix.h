@@ -20,6 +20,11 @@ public:
   void swapRows(int, int);
   void multiplyRow(int, double);
   void addMultipleOfRow(int, int, double);
+
+  // triangulation
+  void upperTriangular();
+  void lowerTriangular();
+
   void print() const;
 };
 

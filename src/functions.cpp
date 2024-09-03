@@ -14,6 +14,9 @@ double f(const string &expression, double x)
   symbol_table.add_constant("e", exp(1));
   symbol_table.add_constants();
 
+  symbol_table.add_function("ln", [](double value) -> double
+                            { return std::log(value); });
+
   expression_t expr;
   expr.register_symbol_table(symbol_table);
 

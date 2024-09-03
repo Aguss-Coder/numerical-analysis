@@ -1,15 +1,15 @@
-#ifndef SOLUTIONS_H
-#define SOLUTIONS_H
+#ifndef equationSystem_H
+#define equationSystem_H
 
 #include <iostream>
 #include "matrix.h"
 
 using namespace std;
 
-class Solutions : public Matrix
+class equationSystem : public Matrix
 {
 public:
-  Solutions(int, int);
+  equationSystem(int, int);
   void menu();
   vector<double> gaussianElimination();
   vector<double> gaussSeidel();

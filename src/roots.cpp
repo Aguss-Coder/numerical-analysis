@@ -32,7 +32,7 @@ void Roots::Menu()
     {
       clearScreen();
       string expression;
-      cout << "Ingrese la funcion: ";
+      cout << "Ingrese la expression: ";
       cin >> expression;
       setExpression(expression);
       bisection();
@@ -42,7 +42,7 @@ void Roots::Menu()
     {
       clearScreen();
       string expression;
-      cout << "Ingrese la funcion despejada: ";
+      cout << "Ingrese la expression despejada: ";
       cin >> expression;
       setExpression(expression);
       fixedPoint();
@@ -52,7 +52,7 @@ void Roots::Menu()
     {
       clearScreen();
       string expression;
-      cout << "Ingrese la funcion: ";
+      cout << "Ingrese la expression: ";
       cin >> expression;
       setExpression(expression);
       newtonRaphson();
@@ -62,7 +62,7 @@ void Roots::Menu()
     {
       clearScreen();
       string expression;
-      cout << "Ingrese la funcion: ";
+      cout << "Ingrese la expression: ";
       cin >> expression;
       setExpression(expression);
       secant();
@@ -88,136 +88,163 @@ string Roots::getExpression()
   return expression;
 }
 
+void Roots::calculateInterval(double a, double b, int maxRoots)
+{
+  double fa = f(expression, a);
+  double fb = f(expression, b);
+  int intervalsFound = 0;
+
+  do
+  {
+    if (fa * fb < 0)
+    {
+      intervals.push_back(make_pair(a, b));
+      intervalsFound++;
+    }
+
+    a = b;
+    b += 0.1;
+    fa = f(expression, a);
+    fb = f(expression, b);
+  } while (intervalsFound < maxRoots);
+
+  if (intervals.size() == 0)
+  {
+    cout << "No se encontraron intervalos" << endl;
+  }
+}
+
 void Roots::bisection()
 {
-  double a, b, c;
-  double errMax;
+  double a, b, tol;
+  int maxRoots;
 
   cout << "Ingrese el intervalo [a, b]: ";
   cin >> a >> b;
+  cout << "Ingrese la tolerancia: ";
+  cin >> tol;
+  cout << "Ingrese el numero maximo de raices: ";
+  cin >> maxRoots;
 
-  cout << "Ingrese el error maximo: ";
-  cin >> errMax;
+  calculateInterval(a, b, maxRoots);
 
-  c = (a + b) / 2;
-
-  while (abs(f(expression, c)) > errMax)
+  for (int i = 0; i < intervals.size(); i++)
   {
-    if (f(expression, a) * f(expression, c) < 0)
+    a = intervals[i].first;
+    b = intervals[i].second;
+
+    double fa = f(expression, a);
+    double fb = f(expression, b);
+
+    if (fa * fb > 0)
     {
-      b = c;
-    }
-    else
-    {
-      a = c;
+      cout << "No se puede aplicar el metodo de biseccion" << endl;
+      continue;
     }
 
-    c = (a + b) / 2;
+    double c = (a + b) / 2;
+    double fc = f(expression, c);
+
+    while (abs(fc) > tol)
+    {
+      if (fa * fc < 0)
+      {
+        b = c;
+        fb = fc;
+      }
+      else
+      {
+        a = c;
+        fa = fc;
+      }
+
+      c = (a + b) / 2;
+      fc = f(expression, c);
+    }
+
+    roots.push_back(c);
   }
 
-  cout << "Raiz: " << c << endl;
+  if (roots.size() == 0)
+  {
+    cout << "No se encontraron raices" << endl;
+  }
+  else
+  {
+    cout << "Raices encontradas: ";
+    for (int i = 0; i < roots.size(); i++)
+    {
+      cout << roots[i] << " ";
+    }
+    cout << endl;
+  }
+
+  intervals.clear();
+  roots.clear();
 }
 
 void Roots::fixedPoint()
 {
-  double x0, x1;
-  double tol;
-  int maxIter;
+  double x, error, v_ant, a, b, epsilon;
 
-  cout << "Ingrese el valor inicial: ";
-  cin >> x0;
+  cout << "Ingrese el intervalo [a, b]: ";
+  cin >> a >> b;
+  cout << "Ingrese el valor de epsilon (numero que maximiza la expression entre a y b): ";
+  cin >> epsilon;
+  cout << "ingrese el error maximo: ";
+  cin >> error;
 
-  cout << "Ingrese la tolerancia: ";
-  cin >> tol;
-
-  cout << "Ingrese el numero maximo de iteraciones: ";
-  cin >> maxIter;
-
-  x1 = f(expression, x0);
-
-  for (int i = 0; i < maxIter; i++)
+  if ((f(expression, a) < a || f(expression, a) > b) || (f(expression, b) < a || f(expression, b) > b))
   {
-    cout << "Iteracion " << i + 1 << ": x = " << x1 << endl;
-
-    if (abs(x1 - x0) < tol)
-    {
-      cout << "Raiz: " << x1 << endl;
-      return;
-    }
-
-    x0 = x1;
-    x1 = f(expression, x0);
+    cout << "La expression no converge" << endl;
   }
-
-  cerr << "El metodo no converge" << endl;
+  else if (abs(fPrime(expression, epsilon)) > 1)
+  {
+    cout << "La expression no converge" << endl;
+  }
+  else
+  {
+    do
+    {
+      v_ant = x;
+      x = f(expression, x);
+    } while (abs(x - v_ant) > error);
+  }
+  cout << "La raiz es: " << x << endl;
 }
 
 void Roots::newtonRaphson()
 {
-  double x0, x1;
-  double tol;
-  int maxIter;
-  int iterations = 0;
-
-  cout << "Ingrese el valor inicial: ";
-  cin >> x0;
-
-  cout << "Ingrese la tolerancia: ";
-  cin >> tol;
-
-  cout << "Ingrese el numero maximo de iteraciones: ";
-  cin >> maxIter;
-
-  while (iterations < maxIter)
+  double x, error, v_ant;
+  cout << "Ingrese el valor de x: ";
+  cin >> x;
+  cout << "Ingrese el valor del error: ";
+  cin >> error;
+  do
   {
-    x1 = x0 - f(expression, x0) / fPrime(expression, x0);
-
-    cout << "Iteracion " << iterations + 1 << ": x = " << x1 << endl;
-
-    if (fabs(x1 - x0) < tol)
-    {
-      cout << "Raiz: " << x1 << endl;
-      return;
-    }
-
-    x0 = x1;
-    iterations++;
-  }
+    v_ant = x;
+    x = x - (f(expression, x) / fPrime(expression, x));
+  } while (abs(x - v_ant) > error);
+  cout << "La raiz es: " << x << endl;
 }
 
 void Roots::secant()
 {
-  double x0, x1, x2;
-  double tol;
-  int maxIter;
+  double error, x_i, x_mas_uno, x_menos_uno;
+  cout << "Ingrese el valor de x_i: ";
+  cin >> x_i;
+  cout << "Ingrese el valor de x_i+1: ";
+  cin >> x_mas_uno;
+  cout << "Ingrese el valor del error: ";
+  cin >> error;
 
-  cout << "Ingrese el valor inicial x0: ";
-  cin >> x0;
-
-  cout << "Ingrese el valor inicial x1: ";
-  cin >> x1;
-
-  cout << "Ingrese la tolerancia: ";
-  cin >> tol;
-
-  cout << "Ingrese el numero maximo de iteraciones: ";
-  cin >> maxIter;
-
-  for (int i = 0; i < maxIter; i++)
+  x_menos_uno = 0;
+  do
   {
-    x2 = x1 - f(expression, x1) * (x1 - x0) / (f(expression, x1) - f(expression, x0));
+    x_mas_uno = x_i - (f(expression, x_i) * (x_menos_uno - x_i)) / (f(expression, x_menos_uno) - f(expression, x_i));
+    x_menos_uno = x_i;
+    x_i = x_mas_uno;
+  } while (abs(x_mas_uno - x_menos_uno) > error);
 
-    cout << "Iteracion " << i + 1 << ": x = " << x2 << endl;
-
-    if (abs(x2 - x1) < tol)
-    {
-      cout << "Raiz: " << x2 << endl;
-      return;
-    }
-
-    x0 = x1;
-    x1 = x2;
-  }
-
-  cerr << "El metodo no converge" << endl;
+  cout << "La raiz es: " << x_mas_uno << endl;
 }

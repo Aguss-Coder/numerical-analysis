@@ -1,6 +1,6 @@
 #include <iostream>
 #include "../include/roots.h"
-#include "../include/solutions.h"
+#include "../include/equationSystem.h"
 #include "../include/functions.h"
 
 using namespace std;
@@ -32,8 +32,8 @@ int main(int argc, char const *argv[])
     {
       clearScreen();
       roots.Menu();
+      break;
     }
-    break;
     case 2:
     {
       int n;
@@ -42,41 +42,41 @@ int main(int argc, char const *argv[])
       cout << "Numero de ecuaciones: ";
       cin >> n;
 
-      Solutions solutions(n, n + 1);
-      solutions.input();
+      equationSystem EquationSystem(n, n + 1);
+      EquationSystem.input();
 
-      solutions.menu();
+      EquationSystem.menu();
+      break;
     }
-    break;
     case 3:
     {
       clearScreen();
       cout << "Regresion lineal" << endl;
+      break;
     }
-    break;
     case 4:
     {
       clearScreen();
       cout << "Interpolacion" << endl;
+      break;
     }
-    break;
     case 5:
     {
       clearScreen();
       cout << "Diferenciacion e integracion numerica" << endl;
+      break;
     }
-    break;
     case 6:
     {
       clearScreen();
       cout << "Ecuaciones diferenciales" << endl;
+      break;
     }
-    break;
     case 7:
     {
       exit = true;
+      break;
     }
-    break;
     default:
       cout << "Opcion invalida" << endl;
       break;
